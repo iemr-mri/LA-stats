@@ -14,8 +14,11 @@ src/        Reusable modules
 analysis/   Thin orchestration scripts, one per analysis
   length_longitudinal.py    Box plots of LA length across timepoints, by sex
   length_mixed_effects.py   Mixed model of LA length by age and sex
+  volume_longitudinal.py    Box plots of LA volume across timepoints, by sex
+  volume_mixed_effects.py   Mixed model of LA volume by age and sex
 figs/       Exported figures (SVG), one subfolder per measure group
   length/       LA length figures
+  volume/       LA volume figures
 SCHEMA.md   Database schema, value ranges, data-quality notes
 ```
 
@@ -64,4 +67,41 @@ and a `pool_baseline=True` sensitivity refit. Inference uses Wald z-tests
 
 ```
 .venv\Scripts\python.exe analysis\length_mixed_effects.py
+```
+
+### Longitudinal LA volume
+
+`analysis/volume_longitudinal.py` →
+`figs/volume/{max,min,stroke}_volume_longitudinal.svg`
+
+One figure per volume measure (max, min, stroke) over the Aging cohort, binned
+to the nominal 9 / 16 / 24-month scan timepoints. Within each figure, Male and
+Female are shown as separate coloured boxes, each labelled inside with
+`n=<animals>`. Off-schedule 18-month scans (n=5) are dropped; Baseline MI/AB
+scans are excluded (toggle `pool_baseline` in `load_la_measurements` to include
+them).
+
+```
+.venv\Scripts\python.exe analysis\volume_longitudinal.py
+```
+
+### Longitudinal LA volume — mixed-effects model
+
+`analysis/volume_mixed_effects.py` →
+`figs/volume/{max,min,stroke}_volume_ml_residual_diagnostics.svg`
+
+Per volume measure, a random-intercept linear mixed model
+(`volume ~ C(age_months) * C(gender)`, random intercept per `animal_id`) over
+the same 9/16/24-month Aging data, mirroring the length model. Reports fixed
+effects, the likelihood-ratio test for the age×sex interaction, estimated
+marginal means and Bonferroni-adjusted pairwise age contrasts per sex, with
+residual diagnostics and a `pool_baseline=True` sensitivity refit. Inference
+uses Wald z-tests (normal approximation — small-sample p-values run slightly
+optimistic). Note: for `stroke_volume_ml` the between-animal variance is
+effectively zero, so the random intercept is near-singular (statsmodels emits a
+convergence/singular-covariance warning); the fixed-effect estimates are still
+valid but the random effect adds little.
+
+```
+.venv\Scripts\python.exe analysis\volume_mixed_effects.py
 ```

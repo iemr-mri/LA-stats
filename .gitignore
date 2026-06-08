@@ -1,6 +1,9 @@
 #figure folder
 figs/
 
+# personal notes folder
+notes/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
