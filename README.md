@@ -88,7 +88,7 @@ them).
 ### Longitudinal LA volume — mixed-effects model
 
 `analysis/volume_mixed_effects.py` →
-`figs/volume/{max,min,stroke}_volume_ml_residual_diagnostics.svg`
+`figs/volume/{max,min,stroke}_volume_ul_residual_diagnostics.svg`
 
 Per volume measure, a random-intercept linear mixed model
 (`volume ~ C(age_months) * C(gender)`, random intercept per `animal_id`) over
@@ -97,7 +97,7 @@ effects, the likelihood-ratio test for the age×sex interaction, estimated
 marginal means and Bonferroni-adjusted pairwise age contrasts per sex, with
 residual diagnostics and a `pool_baseline=True` sensitivity refit. Inference
 uses Wald z-tests (normal approximation — small-sample p-values run slightly
-optimistic). Note: for `stroke_volume_ml` the between-animal variance is
+optimistic). Note: for `stroke_volume_ul` the between-animal variance is
 effectively zero, so the random intercept is near-singular (statsmodels emits a
 convergence/singular-covariance warning); the fixed-effect estimates are still
 valid but the random effect adds little.

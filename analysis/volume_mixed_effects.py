@@ -34,9 +34,9 @@ from src.stats import (  # noqa: E402
 FIGURES_DIRECTORY = PROJECT_ROOT / "figs" / "volume"
 
 VOLUME_OUTCOMES = (
-    ("max_volume_ml", "LA volume at maximum size"),
-    ("min_volume_ml", "LA volume at minimum size"),
-    ("stroke_volume_ml", "LA stroke volume"),
+    ("max_volume_ul", "LA volume at maximum size"),
+    ("min_volume_ul", "LA volume at minimum size"),
+    ("stroke_volume_ul", "LA stroke volume"),
 )
 
 pd.set_option("display.width", 120)
@@ -59,7 +59,7 @@ def report_outcome(measurements, value_column, label):
         f"{interaction['statistic']:.3f}, p = {interaction['p_value']:.4f}"
     )
 
-    print("\nEstimated marginal means (ml):")
+    print("\nEstimated marginal means (µl):")
     print(estimated_marginal_means(model, NOMINAL_TIMEPOINTS, SEX_ORDER).to_string(index=False))
 
     print("\nPairwise age contrasts within sex (Bonferroni-adjusted):")

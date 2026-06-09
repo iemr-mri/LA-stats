@@ -27,9 +27,9 @@ One row per MRI session. Left-atrium size measurements from the 4-chamber view.
 | `mri_id`            | INTEGER | PK (autoincrement) | |
 | `animal_id`         | TEXT    | NOT NULL  | FK → `subjects.animal_id`. |
 | `age_months`        | INTEGER | NOT NULL  | Actual age at scan. Range 9–24. |
-| `max_volume_ml`     | REAL    | 2 nulls   | LA volume at maximum size. Range 0.107–0.944. |
-| `min_volume_ml`     | REAL    | 2 nulls   | LA volume at minimum size. Range 0.024–0.915. |
-| `stroke_volume_ml`  | REAL    | 2 nulls   | max − min volume. Range 0.020–0.222. |
+| `max_volume_ul`     | REAL    | 2 nulls   | LA volume at maximum size, microlitres. Range 107–944. |
+| `min_volume_ul`     | REAL    | 2 nulls   | LA volume at minimum size, microlitres. Range 24–915. |
+| `stroke_volume_ul`  | REAL    | 2 nulls   | max − min volume, microlitres. Range 20–222. |
 | `ejection_fraction` | REAL    | 2 nulls   | LA ejection fraction (%). Range 3.07–77.57. |
 | `max_length_mm`     | REAL    | 2 nulls   | LA length at maximum size. Range 2.27–6.98. |
 | `min_length_mm`     | REAL    | 3 nulls   | LA length at minimum size. Range 1.42–6.39. |
@@ -71,6 +71,11 @@ Pooled-in Baseline animals contribute a single scan each.
 
 Status of known issues (raw → fixed):
 
+- **Volume units** — *converted in DB.* The three volume columns were originally
+  in millilitres (`*_volume_ml`); they were multiplied by 1000 and renamed to
+  microlitres (`*_volume_ul`) for more natural magnitudes at LA scale. Stroke
+  volume equals max − min in all but 14 rows, where source-level rounding leaves
+  a small discrepancy (pre-existing, unchanged by the conversion).
 - **`gender`** — *fixed in DB.* One row (`AGORA112.M1`) had `Male\r` (trailing
   carriage return), distinct from `Male`; corrected via UPDATE. As a safeguard
   against any future recurrence, the loader still normalises whitespace
@@ -89,4 +94,4 @@ Still open — handle on load / verify before analysis:
 ## Notes
 
 - All `la_mri.animal_id` values exist in `subjects` (referential integrity holds).
-- Volumes in millilitres (ml), lengths in millimetres (mm), EF as a percentage.
+- Volumes in microlitres (µl), lengths in millimetres (mm), EF as a percentage.

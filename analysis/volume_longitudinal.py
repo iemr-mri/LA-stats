@@ -25,9 +25,9 @@ FIGURES_DIRECTORY = PROJECT_ROOT / "figs" / "volume"
 
 # (value column, figure title, output filename) per volume measure.
 VOLUME_FIGURES = (
-    ("max_volume_ml", "Longitudinal LA volume at maximum size", "max_volume_longitudinal.svg"),
-    ("min_volume_ml", "Longitudinal LA volume at minimum size", "min_volume_longitudinal.svg"),
-    ("stroke_volume_ml", "Longitudinal LA stroke volume", "stroke_volume_longitudinal.svg"),
+    ("max_volume_ul", "Longitudinal LA volume at maximum size", "max_volume_longitudinal.svg"),
+    ("min_volume_ul", "Longitudinal LA volume at minimum size", "min_volume_longitudinal.svg"),
+    ("stroke_volume_ul", "Longitudinal LA stroke volume", "stroke_volume_longitudinal.svg"),
 )
 
 
@@ -36,7 +36,7 @@ def build_volume_figure(measurements, value_column, title):
     figure, axes = plt.subplots(figsize=(7, 5))
 
     plot_length_by_sex(axes, measurements, value_column, NOMINAL_TIMEPOINTS)
-    axes.set_ylabel("LA volume (ml)")
+    axes.set_ylabel("LA volume (µl)")
     axes.set_title(title)
     axes.spines[["top", "right"]].set_visible(False)
 
